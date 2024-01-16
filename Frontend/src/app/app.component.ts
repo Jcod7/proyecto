@@ -19,8 +19,8 @@ import {MatButtonModule} from '@angular/material/button'
   standalone: true,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  imports: [CommonModule, RouterOutlet, FooterComponent, HeaderComponent, 
-    DashboardComponent, NavComponent, NewpasswordComponent, HttpClientModule, 
+  imports: [CommonModule, RouterOutlet, FooterComponent, HeaderComponent,
+    DashboardComponent,NavComponent, NewpasswordComponent, HttpClientModule,
     RouterLink, SectionComponent, RegisterComponent,ReactiveFormsModule,MatMenuModule,
     MatButtonModule,
     ]

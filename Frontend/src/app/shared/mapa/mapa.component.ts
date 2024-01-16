@@ -1,11 +1,10 @@
+import { Ubicacion } from './../../interfaces/ubicacion';
 import { Component, Input, OnInit } from '@angular/core';
 import { PlacesService } from '../../services/places.service';
 import { icon, Map, marker, tileLayer } from 'leaflet';
-import { Ubicacion } from 'src/app/interfaces/ubicacion';
 import {CommonModule } from '@angular/common';
 import { LatLngExpression } from 'leaflet';
 import { UbicacionService } from 'src/app/services/ubicacion.service';
-import { couldStartTrivia } from 'typescript';
 
 @Component({
   selector: 'app-mapa',
@@ -18,28 +17,42 @@ export class MapaComponent implements OnInit{
   listUbicacion: Ubicacion[] = [];
   geo: any;
   map: any;
-  constructor(private PlacesService: PlacesService,private _ubicacionService: UbicacionService) {}
+  ubic: any;
+  contaddor: number = 0;
+
+  constructor(private PlaceSvc: PlacesService,private _ubicacionService: UbicacionService) {}
+
+  localStorage: Storage = window.localStorage;
 
   ngOnInit() {
     setTimeout(() => {
-      this.geo = this.PlacesService.useLocation;
+      if(this.ubic==undefined){
+      this.geo = this.PlaceSvc.useLocation;
+      this.localStorage.setItem('geolocalizar', JSON.stringify(this.geo));
+      }else{
+        this.localStorage.removeItem('geolocalizar');
+        this.ubic = this.localStorage.getItem('geolocalizar');
+      }
+
     }, 2000);
     this.getUbicacions();
+
     console.log(this.listUbicacion);
   }
 
   ngAfterViewInit() {
+
     setTimeout(() => {
-      this.map = new Map('map').setView(
-        this.geo,
-        13
-      );
+      this.ubic = this.localStorage.getItem('geolocalizar');
+      this.map = new Map('map').setView(JSON.parse(this.ubic), 13);
+
       tileLayer('https://tile.openstreetmap.de/{z}/{x}/{y}.png', {
         maxZoom: 18,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(this.map);
     }, 2000);
   }
+
 
   marcadores() {
     setTimeout(() => {
@@ -58,10 +71,13 @@ export class MapaComponent implements OnInit{
   }
 
   ubicar() {
-    setTimeout(() => {
-      const myIcon = icon({ iconUrl: './assets/img/pin.png', iconSize: [34, 42] });
-      marker(this.geo,{icon:myIcon}).addTo(this.map).bindPopup("<strong>Esta es mi ubicación</strong>").openPopup;
-    }, 2000);
+    this.ubic = this.localStorage.getItem('geolocalizar');
+
+    const myIcon = icon({ iconUrl: './assets/img/pin.png', iconSize: [34, 42] });
+    const myubic = marker(JSON.parse(this.ubic),{icon:myIcon}).addTo(this.map).bindPopup("<strong>Esta es mi ubicación</strong>");
+    let newubicacion = myubic.setLatLng(JSON.parse(this.ubic));
+    console.log(newubicacion);
+
   }
   recargar() {
     location.reload();

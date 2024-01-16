@@ -9,12 +9,18 @@ import { AlquilarBicicletaComponent } from './shared/renta/alquilar-bicicleta/al
 import { authGuard } from './utils/auth.guard';
 import { CarritoComponent } from './shared/renta/carrito/carrito.component';
 import { MapaComponent } from './shared/mapa/mapa.component';
+import { SectionComponent } from './shared/lamding/section/section.component';
+
 
 
 export const routes: Routes = [
   { path: '', redirectTo: '/inicio', pathMatch: 'full' },
   { path: 'inicio', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'section', component: SectionComponent},
+  { path: 'inicio#tarifas', redirectTo: '/inicio#tarifas', pathMatch: 'full'},
+  { path: 'inicio#nosotros', redirectTo: '/inicio#nosotros', pathMatch: 'full'},
+  { path: 'inicio#preguntas', redirectTo: '/inicio#preguntas', pathMatch: 'full'},
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'forgot-password', redirectTo: '/forgot-password', pathMatch: 'full' },
   { path: 'reset-password', component: NewpasswordComponent },

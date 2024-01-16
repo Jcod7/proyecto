@@ -8,6 +8,8 @@ import { SectionComponent } from "../section/section.component";
 import { FooterComponent } from "../../footer/footer.component";
 import { HeaderComponent } from "../header/header.component";
 import { NewpasswordComponent } from 'src/app/shared/forgot-password/newpassword/newpassword.component';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-dashboard',

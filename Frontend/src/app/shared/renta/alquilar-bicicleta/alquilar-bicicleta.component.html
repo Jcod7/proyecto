@@ -53,6 +53,29 @@
         </div>
       </div>
 
+      <div class="col-4 py-2">
+        <div class="form-group">
+          <label for="nombreLugar">Nombre del Lugar</label>
+          <input type="text" id="nombreLugar" class="form-control" formControlName="nombreLugar" />
+        </div>
+      </div>
+
+      <div class="col-4 py-2">
+        <div class="form-group">
+          <label for="direccion">Dirección</label>
+          <input type="text" id="direccion" class="form-control" formControlName="direccion" />
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="form-group">
+          <div id="map" style="height: 400px;"></div>
+
+
+        </div>
+      </div>
+
+
       <div class="row">
         <button class="btn btn-danger" type="button" (click)="guardarBicicleta()">
           Guardar

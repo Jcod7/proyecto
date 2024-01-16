@@ -6,25 +6,60 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { product_add } from 'src/app/interfaces/product_add.';
 import { NavComponent } from "../../renta/nav/nav.component";
 import { FooterComponent } from "../../footer/footer.component";
+import { MapaComponent } from '../../mapa/mapa.component';
+import * as L from 'leaflet';
 
 @Component({
     selector: 'app-alquilar-bicicleta',
     standalone: true,
     templateUrl: './alquilar-bicicleta.component.html',
     styleUrl: './alquilar-bicicleta.component.css',
-    imports: [ReactiveFormsModule, NavComponent, FooterComponent]
+    imports: [ReactiveFormsModule, NavComponent, FooterComponent,MapaComponent]
 })
 
 export class AlquilarBicicletaComponent {
   bicicletaForm: FormGroup | any;
   cedulaUsuario: string | null = null;
-  constructor(private formBuilder: FormBuilder, private productService: ProductService, private userService: UserService) { }
+  map: L.Map | undefined;
+  latitude?: number;
+  longitude?: number;
+  constructor(private formBuilder: FormBuilder, private productService: ProductService, private userService: UserService) {}
 
   ngOnInit(): void {
     // Obtén la cédula del usuario al inicializar el componente
     this.userService.getCedulaUsuario().subscribe(cedula => {
       this.cedulaUsuario = cedula;
     });
+
+    // Obtén la ubicación actual del usuario
+//no me carga el mapa
+
+
+
+
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.latitude = position.coords.latitude;
+      this.longitude = position.coords.longitude;
+      this.map = L.map('map').setView([this.latitude, this.longitude], 13);
+    });
+    //
+
+    //
+    if (this.map) {
+      L.tileLayer('https://tile.openstreetmap.de/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(this.map);
+    }
+
+    this.map?.on('click', (e) => {
+      const latlng = e.latlng;
+      const latitude = latlng.lat;
+      const longitude = latlng.lng;
+    });
+
+
+
 
     // Inicializa el formulario
     this.bicicletaForm = this.formBuilder.group({
